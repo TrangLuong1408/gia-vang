@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Giá vàng nhẫn ép vỉ hôm nay</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600&family=Playfair+Display:wght@600;700&display=swap">
+<style>
+:root{
+  --bg1:#fffbe3;--bg2:#fff1b8;--bg3:#fde3a0;
+  --card:rgba(255,255,255,.62);--card-b:rgba(255,255,255,.85);
+  --ink:#4a3a12;--muted:#8f7432;--buy:#2e7d4f;--sell:#c0472f;--accent:#a8791a;
+  box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){--bg1:#d9a928;--bg2:#b98410;--bg3:#8a5a00;--card:rgba(40,26,4,.62);--card-b:rgba(255,220,120,.25);--ink:#fff3d0;--muted:#f0d48a;--buy:#7be0a0;--sell:#ffa08a;--accent:#ffe08a}
+}
+:root[data-theme="dark"]{--bg1:#d9a928;--bg2:#b98410;--bg3:#8a5a00;--card:rgba(40,26,4,.62);--card-b:rgba(255,220,120,.25);--ink:#fff3d0;--muted:#f0d48a;--buy:#7be0a0;--sell:#ffa08a;--accent:#ffe08a}
+*{box-sizing:border-box}
+html{height:100%}
+body{margin:0;min-height:100%;font-family:'Be Vietnam Pro',system-ui,sans-serif;color:var(--ink);
+  background:radial-gradient(circle at 12% 8%,var(--bg1),transparent 50%),radial-gradient(circle at 90% 85%,#ffe9c2,transparent 45%),linear-gradient(160deg,var(--bg2),var(--bg3));background-attachment:fixed}
+main{position:relative;z-index:1;max-width:980px;margin:0 auto;padding:48px 20px 56px}
+h1{font-family:'Playfair Display',Georgia,serif;font-size:clamp(28px,5vw,44px);margin:0 0 6px;letter-spacing:.3px}
+.sub{margin:0 0 32px;color:var(--muted);font-size:15px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:20px}
+.card{background:var(--card);border:1px solid var(--card-b);border-radius:22px;padding:26px;backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-radius:26px;box-shadow:0 20px 50px -22px rgba(190,140,30,.45),inset 0 1px 0 rgba(255,255,255,.9);transition:transform .35s ease,box-shadow .35s ease}
+.card:hover{transform:translateY(-4px);box-shadow:0 28px 56px -22px rgba(190,140,30,.55),inset 0 1px 0 rgba(255,255,255,.9)}
+.brand{font-size:12px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--accent)}
+.name{font-family:'Playfair Display',Georgia,serif;font-size:22px;margin:6px 0 20px;font-weight:600}
+.row{display:flex;justify-content:space-between;align-items:flex-end;gap:12px;padding:14px 0;border-top:1px solid var(--card-b)}
+.label{font-size:13px;color:var(--muted)}
+.price{font-size:clamp(26px,4vw,34px);font-weight:600;font-variant-numeric:tabular-nums}
+.buy{color:var(--buy)}.sell{color:var(--sell)}
+.unit{font-size:13px;font-weight:400;color:var(--muted)}
+.meta{display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;margin-top:6px;font-size:12.5px;color:var(--muted)}
+.chip{padding:3px 10px;border-radius:99px;background:var(--card-b)}
+h2{font-family:'Playfair Display',Georgia,serif;font-size:24px;margin:40px 0 14px}
+.tw{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:14px;font-variant-numeric:tabular-nums}
+th,td{padding:12px 14px;text-align:right;white-space:nowrap}
+th:first-child,td:first-child{text-align:left}
+thead th{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);border-bottom:1px solid var(--card-b)}
+tbody td{border-bottom:1px solid var(--card-b)}
+tbody tr:last-child td{border-bottom:0}
+.note{margin-top:24px;font-size:12.5px;color:var(--muted)}
+.note a{color:inherit}
+#coins{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:0}
+.chip.up{color:var(--buy)}.chip.dn{color:var(--sell)}
+.tm{margin-top:2px;font-size:12px;color:var(--muted);font-weight:400}
+.hero{position:relative;overflow:hidden}
+.hero::before{content:"";position:absolute;inset:0 auto 0 0;width:6px;background:linear-gradient(#f7d86a,#e0a526)}
+.hero .name{margin:6px 0 18px}
+.lbl{font-size:12px;color:var(--muted);letter-spacing:.1em;text-transform:uppercase;font-weight:600}
+.big-price{font-size:clamp(38px,7vw,54px);font-weight:600;line-height:1.1;margin:4px 0 12px;font-variant-numeric:tabular-nums}
+.cur{font-size:15px;font-weight:400;color:var(--muted)}
+.delta{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--muted);min-height:26px}
+.sub2{display:flex;justify-content:space-between;flex-wrap:wrap;gap:6px;margin-top:18px;padding-top:14px;border-top:1px solid var(--card-b);font-size:13px;color:var(--muted)}
+.sub2 b{color:var(--ink);font-weight:500}
+.sv{font-size:17px;font-weight:600}
+.mini{font-size:11.5px;font-weight:500;margin-left:6px}.mini.up{color:var(--buy)}.mini.dn{color:var(--sell)}
+tbody tr:hover{background:var(--card-b)}
+td:first-child{font-weight:600}
+.fields{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:14px}
+.calc label{display:flex;flex-direction:column;gap:6px;font-size:13px;color:var(--muted)}
+.calc input,.calc select{font:inherit;font-size:16px;padding:11px 14px;border-radius:14px;border:1px solid var(--card-b);background:var(--card);color:var(--ink);width:100%}
+.res{margin-top:18px}
+.rr{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:12px 0;border-top:1px solid var(--card-b);font-size:14px}
+.rr b{font-size:19px;font-variant-numeric:tabular-nums}
+.big{padding:18px 20px;border-radius:18px;background:var(--card-b);font-size:14px;color:var(--muted);display:flex;flex-direction:column;gap:4px}
+.big b{font-size:clamp(26px,5vw,36px);color:var(--sell);font-variant-numeric:tabular-nums}
+.qs{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
+.qs button{font:inherit;font-size:13px;padding:7px 14px;border-radius:99px;border:1px solid var(--card-b);background:var(--card);color:var(--ink);cursor:pointer}
+.qs button:hover{background:var(--card-b)}
+</style>
+</head>
+<body>
+<canvas id="coins" aria-hidden="true"></canvas>
+<main>
+  <h1>Giá vàng nhẫn ép vỉ</h1>
+  <p class="sub">Kim Ngân Phúc &amp; Bảo Tín Mạnh Hải · đơn vị: đồng/chỉ · <span id="asof"></span></p>
+  <section class="grid" id="cards"></section>
+  <h2>Máy tính quy đổi</h2>
+  <div class="card calc">
+    <div class="fields">
+      <label>Hãng<select id="cb"><option value="knp">Kim Ngân Phúc</option><option value="kgb">Kim Gia Bảo (BTMH)</option></select></label>
+      <label>Số chỉ (nhập được 0,1 · 0,2 · 1,5…)<input id="cq" type="text" value="0,2" inputmode="decimal" autocomplete="off"></label>
+    </div>
+    <div class="qs"><button type="button" data-q="0,1">0,1 chỉ</button><button type="button" data-q="0,2">0,2 chỉ</button><button type="button" data-q="0,5">0,5 chỉ</button><button type="button" data-q="1">1 chỉ</button><button type="button" data-q="2">2 chỉ</button></div>
+    <div class="res" id="cr"></div>
+  </div>
+  <h2>Nhật ký giá</h2>
+  <div class="card tw">
+    <table>
+      <thead><tr><th>Ngày</th><th>Kim Ngân Phúc · bán ra</th><th>Kim Gia Bảo · bán ra</th><th>KGB cao hơn KNP</th></tr></thead>
+      <tbody id="log"></tbody>
+    </table>
+  </div>
+</main>
+<script>
+fetch("data.json?v="+Date.now()).then(function(r){return r.json()}).then(function(LOG){
+var f=function(k){return (k*1000).toLocaleString("vi-VN")};
+function card(brand,name,d,extra){
+  return '<article class="card hero"><div class="brand">'+brand+'</div><div class="name">'+name+'</div>'+
+  '<div class="lbl">Giá bán ra</div><div class="big-price">'+f(d.sell)+'<span class="cur"> ₫/chỉ</span></div>'+
+  '<div class="delta">'+extra+'</div>'+
+  '<div class="sub2"><span>Mua vào <b>'+f(d.buy)+' ₫</b></span><span>Cập nhật '+d.t+'</span></div></article>';
+}
+var L=LOG[0];
+document.getElementById("asof").textContent="Cập nhật ngày "+L.date;
+var P=LOG[1]||null;
+function dl(cur,prev,rep){
+  var d=prev!=null?cur-prev:rep;
+  if(d==null)return '<span class="chip">Chưa có dữ liệu hôm qua</span>';
+  if(d===0)return '<span class="chip">— không đổi</span>';
+  return '<span class="chip '+(d>0?'up':'dn')+'">'+(d>0?'▲ +':'▼ −')+f(Math.abs(d))+' ₫</span>';
+}
+document.getElementById("cards").innerHTML=
+  card("Kim Ngân Phúc","Nhẫn ép vỉ 9999",L.knp,'<span>so hôm qua</span>'+dl(L.knp.sell,P?P.knp.sell:null,null))+
+  card("Bảo Tín Mạnh Hải","Kim Gia Bảo 24K",L.kgb,'<span>so hôm qua</span>'+dl(L.kgb.sell,P?P.kgb.sell:null,L.kgb.chg));
+var fm=function(n){return Math.round(n).toLocaleString("vi-VN")+" ₫"};
+function rr(t,v,c){return '<div class="rr"><span>'+t+'</span><b class="'+(c||'')+'">'+v+'</b></div>'}
+function calc(){
+  var d=L[document.getElementById("cb").value],q=parseFloat(String(document.getElementById("cq").value).replace(",","."))||0;
+  var qs=String(q).replace(".",",");
+  document.getElementById("cr").innerHTML='<div class="big">Nếu mua '+qs+' chỉ ngay bây giờ, bạn phải trả<b>'+fm(d.sell*1000*q)+'</b></div>';
+}
+["cb","cq"].forEach(function(i){document.getElementById(i).addEventListener("input",calc)});
+document.querySelectorAll(".qs button").forEach(function(b){b.addEventListener("click",function(){document.getElementById("cq").value=b.dataset.q;calc()})});
+calc();
+function cell(d,pv){
+  var m='';
+  if(pv!=null&&d.sell!==pv){var x=d.sell-pv;m='<span class="mini '+(x>0?'up':'dn')+'">'+(x>0?'▲ ':'▼ ')+f(Math.abs(x))+'</span>';}
+  return '<td><div class="sv">'+f(d.sell)+m+'</div><div class="tm">mua vào '+f(d.buy)+' · '+d.t+'</div></td>';
+}
+document.getElementById("log").innerHTML=LOG.map(function(r,i){
+  var o=LOG[i+1],df=r.kgb.sell-r.knp.sell;
+  return '<tr><td>'+r.date+'</td>'+cell(r.knp,o?o.knp.sell:null)+cell(r.kgb,o?o.kgb.sell:null)+'<td><div class="sv">'+(df>0?"+":"")+f(df)+' ₫</div></td></tr>';
+}).join("");
+(function(){
+var c=document.getElementById("coins"),x=c.getContext("2d");
+if(matchMedia("(prefers-reduced-motion: reduce)").matches)return;
+var W,H,dpr=Math.min(devicePixelRatio||1,2),coins=[];
+function size(){W=innerWidth;H=innerHeight;c.width=W*dpr;c.height=H*dpr;x.setTransform(dpr,0,0,dpr,0,0)}
+function mk(init){return{x:Math.random()*W,y:init?Math.random()*H:-40,r:13+Math.random()*15,v:.6+Math.random()*1.1,s:(Math.random()-.5)*.5,a:Math.random()*6.28,w:.02+Math.random()*.04,o:.65+Math.random()*.35}}
+size();addEventListener("resize",size);
+var n=W<600?14:26;for(var i=0;i<n;i++)coins.push(mk(true));
+var img=new Image();img.src="coin.png";
+function draw(k){
+ if(!img.complete||!img.naturalWidth)return;
+ x.save();x.translate(k.x,k.y);x.globalAlpha=k.o;
+ x.scale(Math.abs(Math.cos(k.a))*.92+.08,1);
+ x.drawImage(img,-k.r,-k.r,k.r*2,k.r*2);
+ x.restore()}
+function tick(){x.clearRect(0,0,W,H);
+ coins.forEach(function(k,i){k.y+=k.v;k.x+=k.s+Math.sin(k.a)*.3;k.a+=k.w*3;if(k.y>H+40)coins[i]=mk(false);draw(k)});
+ requestAnimationFrame(tick)}
+tick();
+})();
+}).catch(function(){document.getElementById("cards").innerHTML='<p>Chưa tải được dữ liệu giá.</p>'});
+</script>
+</body>
+</html>
