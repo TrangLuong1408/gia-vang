@@ -8,10 +8,14 @@ from bs4 import BeautifulSoup
 UA = {"User-Agent": "Mozilla/5.0 (compatible; gia-vang-bot/1.0)"}
 num = lambda t: int(re.sub(r"[^\d]", "", t) or 0)
 
-def get(url):
+def fetch(url):
     r = requests.get(url, headers=UA, timeout=30)
     r.raise_for_status()
-    return BeautifulSoup(r.text, "html.parser")
+    r.encoding = "utf-8"
+    return r.text
+
+def get(url):
+    return BeautifulSoup(fetch(url), "html.parser")
 
 def rows(soup):
     for tr in soup.find_all("tr"):
@@ -28,14 +32,29 @@ def knp():
     raise RuntimeError("Không tìm thấy dòng Nhẫn ép vỉ Kim Ngân Phúc")
 
 def kgb():
-    soup = get("https://baotinmanhhai.vn/bang-gia-vang")
-    for c in rows(soup):
-        if c[0].strip().lower() == "kim gia bảo 24k" and len(c) >= 4:
-            m = re.search(r"Cập nhật lúc\s*\d{4}-\d{2}-\d{2}\s*(\d{2}:\d{2})", soup.get_text(" "))
-            chg = 0
-            if len(c) >= 5 and re.search(r"\d", c[4]):
-                chg = num(c[4]) // 1000 * (-1 if c[4].strip().startswith("-") else 1)
-            return {"buy": num(c[2]), "sell": num(c[3]), "t": m.group(1) if m else "", "chg": chg}
+    html = fetch("https://baotinmanhhai.vn/bang-gia-vang")
+    soup = BeautifulSoup(html, "html.parser")
+    text = soup.get_text("\n", strip=True)
+    lines = [l.strip() for l in text.split("\n") if l.strip()]
+    for i, l in enumerate(lines):
+        if l.lower() == "kim gia bảo 24k":
+            nums = []
+            for x in lines[i + 1:i + 8]:
+                if re.fullmatch(r"[+-]?[\d.,]+", x):
+                    nums.append(x)
+                elif nums:
+                    break
+            if nums and re.fullmatch(r"\d{2}\.\d{1,2}", nums[0]):
+                nums = nums[1:]          # bỏ cột hàm lượng (99.99)
+            if len(nums) >= 2:
+                chg = 0
+                if len(nums) >= 3:
+                    chg = num(nums[2]) // 1000 * (-1 if nums[2].startswith("-") else 1)
+                m = re.search(r"Cập nhật lúc\s*\d{4}-\d{2}-\d{2}\s*(\d{2}:\d{2})", text)
+                return {"buy": num(nums[0]), "sell": num(nums[1]), "t": m.group(1) if m else "", "chg": chg}
+    print("DEBUG: độ dài HTML =", len(html), "| có 'Kim Gia' =", "Kim Gia" in html, "| số dòng chữ =", len(lines))
+    i = html.find("Kim Gia")
+    print("DEBUG: đoạn quanh 'Kim Gia':", html[max(0, i - 100):i + 300] if i >= 0 else "(không có)")
     raise RuntimeError("Không tìm thấy dòng Kim Gia Bảo 24K")
 
 def main():
