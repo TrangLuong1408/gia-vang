@@ -334,7 +334,7 @@ function slotHTML(s,i){
   return'<div class="slot" data-i="'+i+'"><div class="sn">Khung '+(i+1)+'</div>'+
   '<label>Từ<input type="time" data-k="from" value="'+s.from+'"></label>'+
   '<label>Đến<input type="time" data-k="to" value="'+s.to+'"></label>'+
-  '<label>Lặp lại mỗi<select data-k="step">'+[5,10,15,30,60].map(function(v){return'<option value="'+v+'"'+(+s.step===v?' selected':'')+'>'+v+' phút</option>'}).join("")+'</select></label>'+
+  '<label>Lặp lại mỗi<select data-k="step">'+[15,30,60].map(function(v){return'<option value="'+v+'"'+(+s.step===v?' selected':'')+'>'+v+' phút</option>'}).join("")+'</select></label>'+
   '<label class="sw"><input type="checkbox" data-k="on"'+(s.on?' checked':'')+'> Bật</label>'+
   '<button type="button" class="del" data-del="'+i+'" aria-label="Xóa khung '+(i+1)+'">🗑</button>'+
   '<div class="s-pre"></div></div>';
