@@ -72,13 +72,62 @@ td:first-child{font-weight:600}
 .qs{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
 .qs button{font:inherit;font-size:13px;padding:7px 14px;border-radius:99px;border:1px solid var(--card-b);background:var(--card);color:var(--ink);cursor:pointer}
 .qs button:hover{background:var(--card-b)}
+.top{display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:16px;margin-bottom:20px}
+.top .sub{margin:0}
+.actions{display:flex;flex-wrap:wrap;gap:10px}
+.btn{font:inherit;font-size:14px;font-weight:500;display:inline-flex;align-items:center;gap:8px;padding:11px 18px;border-radius:99px;border:1px solid var(--card-b);background:var(--card);color:var(--ink);cursor:pointer;backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);transition:transform .2s,background .2s}
+.btn:hover:not(:disabled){transform:translateY(-1px);background:var(--card-b)}
+.btn:disabled{opacity:.55;cursor:not-allowed}
+.btn.primary{background:linear-gradient(135deg,#f6cf55,#e6a91f);border-color:transparent;color:#3a2706;font-weight:600;box-shadow:0 10px 24px -12px rgba(190,130,10,.85)}
+.btn.primary:hover:not(:disabled){background:linear-gradient(135deg,#f9d86d,#ebb232)}
+.spin{display:inline-block;width:14px;height:14px;border-radius:50%;border:2px solid currentColor;border-right-color:transparent;animation:sp .8s linear infinite;vertical-align:-2px}
+@keyframes sp{to{transform:rotate(360deg)}}
+.amsg{margin:0 0 20px;padding:12px 16px;border-radius:16px;background:var(--card);border:1px solid var(--card-b);font-size:14px}
+.amsg[hidden]{display:none}
+.amsg.ok{border-color:var(--buy)}.amsg.err{border-color:var(--sell)}
+.ov{position:fixed;inset:0;z-index:20;background:rgba(74,58,18,.38);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);display:flex;align-items:center;justify-content:center;padding:16px}
+.ov[hidden]{display:none}
+.dlg{width:min(700px,100%);max-height:100%;overflow:auto;background:#fffdf3;color:#4a3a12;border-radius:26px;padding:26px;border:1px solid var(--card-b);box-shadow:0 30px 80px -20px rgba(120,80,0,.6);--muted:#8f7432;--card:#fff;--card-b:#f1e2ad}
+@media (prefers-color-scheme:dark){.dlg{background:#2a1d06;color:#fff3d0;--muted:#f0d48a;--card:rgba(255,255,255,.06);--card-b:rgba(255,220,120,.25)}}
+.dh{display:flex;justify-content:space-between;gap:12px;align-items:flex-start;margin-bottom:18px}
+.dh h3{font-family:'Playfair Display',Georgia,serif;font-size:24px;margin:0 0 4px}
+.dh p{margin:0;font-size:13.5px;color:var(--muted)}
+.x{font:inherit;border:0;background:transparent;color:inherit;font-size:18px;cursor:pointer;padding:4px 8px;border-radius:10px}
+.x:hover{background:var(--card-b)}
+.slot{display:flex;flex-wrap:wrap;gap:12px;align-items:flex-end;padding:16px;border:1px solid var(--card-b);border-radius:18px;background:var(--card);margin-bottom:12px}
+.slot.off{opacity:.55}
+.sn{flex:0 0 100%;font-size:12px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--accent)}
+.slot label{display:flex;flex-direction:column;gap:5px;font-size:12.5px;color:var(--muted);flex:1 1 110px}
+.slot input[type=time],.slot select{font:inherit;font-size:15px;padding:9px 12px;border-radius:12px;border:1px solid var(--card-b);background:transparent;color:inherit;width:100%}
+.slot label.sw{flex:0 0 auto;flex-direction:row;align-items:center;gap:8px;padding-bottom:10px;font-size:14px;color:inherit}
+.slot input[type=checkbox]{width:18px;height:18px;accent-color:#e0a526}
+.del{font:inherit;border:1px solid var(--card-b);background:transparent;color:inherit;border-radius:12px;padding:8px 11px;cursor:pointer}
+.del:hover{background:var(--card-b)}
+.s-pre{flex:0 0 100%;font-size:13px;color:var(--muted)}
+.s-pre b{color:inherit}.err{color:var(--sell)}
+.add{width:100%;justify-content:center;border-style:dashed;margin-bottom:14px}
+.sumry{font-size:14px;margin-bottom:18px}
+.df{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;border-top:1px solid var(--card-b);padding-top:16px}
+.df .hint{font-size:12.5px;color:var(--muted);flex:1 1 220px}
+.df .bt{display:flex;gap:10px}
+.cerr{margin:-6px 0 14px;font-size:13.5px}.cerr[hidden]{display:none}
 </style>
 </head>
 <body>
 <canvas id="coins" aria-hidden="true"></canvas>
 <main>
-  <h1>Giá vàng nhẫn ép vỉ</h1>
-  <p class="sub">Kim Ngân Phúc &amp; Bảo Tín Mạnh Hải · đơn vị: đồng/chỉ · <span id="asof"></span></p>
+  <header class="top">
+    <div>
+      <h1>Giá vàng nhẫn ép vỉ</h1>
+      <p class="sub">Kim Ngân Phúc &amp; Bảo Tín Mạnh Hải · đơn vị: đồng/chỉ · <span id="asof"></span></p>
+    </div>
+    <div class="actions">
+      <button id="bNow" class="btn primary" type="button">⚡ Cập nhật ngay</button>
+      <button id="bCfg" class="btn" type="button">⚙ Cấu hình giờ chạy</button>
+    </div>
+  </header>
+  <div id="amsg" class="amsg" role="status" hidden></div>
+  <div id="demo" class="amsg" hidden>Đang xem bản mẫu: chưa kết nối dữ liệu thật.</div>
   <section class="grid" id="cards"></section>
   <h2>Máy tính quy đổi</h2>
   <div class="card calc">
@@ -97,8 +146,29 @@ td:first-child{font-weight:600}
     </table>
   </div>
 </main>
+<div class="ov" id="cfg" hidden>
+  <div class="dlg" role="dialog" aria-modal="true" aria-labelledby="cfgT">
+    <div class="dh">
+      <div><h3 id="cfgT">Cấu hình giờ chạy tự động</h3><p>Bot sẽ tự lấy giá trong các khung giờ dưới đây (giờ Việt Nam, GMT+7).</p></div>
+      <button class="x" id="cfgX" type="button" aria-label="Đóng">✕</button>
+    </div>
+    <div id="slots"></div>
+    <button class="btn add" id="addSlot" type="button">＋ Thêm khung giờ</button>
+    <div class="sumry" id="sumry"></div>
+    <div class="err cerr" id="cfgErr" role="alert" hidden></div>
+    <div class="df">
+      <span class="hint">Bot kiểm tra cấu hình mỗi 5 phút và áp dụng từ lượt chạy kế tiếp. Khoảng lặp nhỏ nhất là 5 phút.</span>
+      <div class="bt"><button class="btn" id="cfgCancel" type="button">Hủy</button><button class="btn primary" id="cfgSave" type="button">Lưu cấu hình</button></div>
+    </div>
+  </div>
+</div>
 <script>
-fetch("data.json?v="+Date.now()).then(function(r){return r.json()}).then(function(LOG){
+var cur="",DEMO=false,ON_PAGES=/github\.io$/.test(location.hostname);
+var SAMPLE=[{date:"03/11/2026",knp:{buy:12700,sell:13000,t:"09:42"},kgb:{buy:13570,sell:13970,t:"08:34",chg:20}},{date:"02/11/2026",knp:{buy:12600,sell:12900,t:"09:48"},kgb:{buy:13450,sell:13850,t:"09:04",chg:70}}];
+function getData(){return fetch("data.json?v="+Date.now(),{cache:"no-store"}).then(function(r){if(!r.ok)throw 0;return r.json()})}
+getData().catch(function(){if(ON_PAGES)throw 0;DEMO=true;return SAMPLE}).then(function(LOG){
+cur=JSON.stringify(LOG[0]);
+if(DEMO)document.getElementById("demo").hidden=false;
 var f=function(k){return (k*1000).toLocaleString("vi-VN")};
 function card(brand,name,d,extra){
   return '<article class="card hero"><div class="brand">'+brand+'</div><div class="name">'+name+'</div>'+
@@ -145,12 +215,13 @@ function size(){W=innerWidth;H=innerHeight;c.width=W*dpr;c.height=H*dpr;x.setTra
 function mk(init){return{x:Math.random()*W,y:init?Math.random()*H:-40,r:13+Math.random()*15,v:.6+Math.random()*1.1,s:(Math.random()-.5)*.5,a:Math.random()*6.28,w:.02+Math.random()*.04,o:.65+Math.random()*.35}}
 size();addEventListener("resize",size);
 var n=W<600?14:26;for(var i=0;i<n;i++)coins.push(mk(true));
-var img=new Image();img.src="coin.png";
+var img=new Image(),bad=false;img.onerror=function(){bad=true};img.src="coin.png";
 function draw(k){
- if(!img.complete||!img.naturalWidth)return;
+ if(!bad&&(!img.complete||!img.naturalWidth))return;
  x.save();x.translate(k.x,k.y);x.globalAlpha=k.o;
  x.scale(Math.abs(Math.cos(k.a))*.92+.08,1);
- x.drawImage(img,-k.r,-k.r,k.r*2,k.r*2);
+ if(bad){var g=x.createRadialGradient(-k.r*.3,-k.r*.3,1,0,0,k.r);g.addColorStop(0,"#fff3b0");g.addColorStop(1,"#d9a21b");x.beginPath();x.arc(0,0,k.r,0,6.283);x.fillStyle=g;x.fill()}
+ else x.drawImage(img,-k.r,-k.r,k.r*2,k.r*2);
  x.restore()}
 function tick(){x.clearRect(0,0,W,H);
  coins.forEach(function(k,i){k.y+=k.v;k.x+=k.s+Math.sin(k.a)*.3;k.a+=k.w*3;if(k.y>H+40)coins[i]=mk(false);draw(k)});
@@ -158,6 +229,171 @@ function tick(){x.clearRect(0,0,W,H);
 tick();
 })();
 }).catch(function(){document.getElementById("cards").innerHTML='<p>Chưa tải được dữ liệu giá.</p>'});
+</script>
+<script>
+(function(){
+var $=function(i){return document.getElementById(i)};
+var sleep=function(ms){return new Promise(function(r){setTimeout(r,ms)})};
+var amsg=$("amsg"),tmr;
+function say(t,k){
+  amsg.hidden=false;amsg.className="amsg "+(k||"");
+  amsg.innerHTML=(k==="busy"?'<span class="spin"></span> ':'')+t;
+  clearTimeout(tmr);
+  if(k==="ok"||!k)tmr=setTimeout(function(){amsg.hidden=true},8000);
+}
+
+/* ===== 1. Cập nhật ngay ===== */
+var bNow=$("bNow"),busy=false;
+function setBusy(b){busy=b;bNow.disabled=b;bNow.innerHTML=b?'<span class="spin"></span> Đang cập nhật…':'⚡ Cập nhật ngay'}
+bNow.addEventListener("click",async function(){
+  if(busy)return;
+  if(!ON_PAGES){say("Nút này chỉ hoạt động trên trang GitHub Pages của bạn (địa chỉ dạng username.github.io/gia-vang).","err");return}
+  var tok="";try{tok=localStorage.getItem("ghtok")||""}catch(e){}
+  if(!tok){
+    tok=(prompt("Dán GitHub token của bạn (chỉ lưu trên trình duyệt này):")||"").trim();
+    if(!tok)return;
+    try{localStorage.setItem("ghtok",tok)}catch(e){}
+  }
+  var owner=location.hostname.split(".")[0],repo=location.pathname.split("/")[1]||"";
+  var api="https://api.github.com/repos/"+owner+"/"+repo;
+  var H={"Authorization":"Bearer "+tok,"Accept":"application/vnd.github+json","X-GitHub-Api-Version":"2022-11-28"};
+  var lastSha=function(){return fetch(api+"/commits?path=data.json&per_page=1",{headers:H}).then(function(r){return r.json()}).then(function(a){return a&&a[0]?a[0].sha:""})};
+  setBusy(true);say("Đang gửi lệnh cho bot…","busy");
+  try{
+    var sha0=await lastSha(),t0=Date.now();
+    var res=await fetch(api+"/actions/workflows/update-prices.yml/dispatches",{method:"POST",headers:H,body:JSON.stringify({ref:"main"})});
+    if(res.status!==204){
+      if(res.status===401||res.status===403||res.status===404){try{localStorage.removeItem("ghtok")}catch(e){}}
+      throw new Error("Không gửi được lệnh (mã "+res.status+"). Kiểm tra lại token rồi bấm lại.");
+    }
+    say("Bot đang lấy giá từ hai trang…","busy");
+    var run=null;
+    for(var i=0;i<45;i++){
+      await sleep(4000);
+      var rs=await fetch(api+"/actions/workflows/update-prices.yml/runs?event=workflow_dispatch&per_page=5",{headers:H}).then(function(r){return r.json()});
+      run=(rs.workflow_runs||[]).filter(function(x){return new Date(x.created_at).getTime()>=t0-30000})[0]||null;
+      if(run&&run.status==="completed")break;
+    }
+    if(!run||run.status!=="completed")throw new Error("Bot chạy lâu hơn dự kiến. Xem tab Actions trên GitHub để biết tình trạng.");
+    if(run.conclusion!=="success")throw new Error("Bot báo lỗi khi lấy giá. Xem chi tiết ở tab Actions trên GitHub.");
+    var sha1=await lastSha();
+    if(sha1===sha0){say("Giá và giờ cập nhật chưa thay đổi so với lần trước, nên nhật ký không thêm dòng mới.","ok");setBusy(false);return}
+    say("Có giá mới! Đang chờ trang cập nhật…","busy");
+    for(var j=0;j<24;j++){
+      await sleep(5000);
+      var d=await getData().catch(function(){return null});
+      if(d&&JSON.stringify(d[0])!==cur){say("Đã có giá mới, đang tải lại…","ok");setTimeout(function(){location.reload()},700);return}
+    }
+    throw new Error("Bot đã ghi giá mới nhưng trang chưa kịp cập nhật. Đợi 1–2 phút rồi tải lại trang.");
+  }catch(e){say(e.message||"Có lỗi xảy ra.","err")}
+  setBusy(false);
+});
+
+/* ===== 2. Cấu hình giờ chạy ===== */
+var KEY="gv_schedule",DEF=[{from:"09:00",to:"10:00",step:10,on:true},{from:"15:00",to:"16:00",step:10,on:true}];
+var clone=function(o){return JSON.parse(JSON.stringify(o))};
+var localCfg=null;try{localCfg=JSON.parse(localStorage.getItem(KEY))}catch(e){}
+if(Array.isArray(localCfg))localCfg={updated:"",slots:localCfg};
+var slots=localCfg&&Array.isArray(localCfg.slots)?localCfg.slots:clone(DEF);
+var draft=[],lastFocus=null;
+var toMin=function(t){var p=String(t||"").split(":");return p.length===2&&p[0]!==""&&p[1]!==""?(+p[0])*60+(+p[1]):NaN};
+var hh=function(m){return("0"+Math.floor(m/60)).slice(-2)+":"+("0"+m%60).slice(-2)};
+function times(s){var a=toMin(s.from),b=toMin(s.to),st=+s.step,r=[];if(isNaN(a)||isNaN(b)||b<a||!st)return null;for(var m=a;m<=b;m+=st)r.push(hh(m));return r}
+function persist(sl,upd){try{localStorage.setItem(KEY,JSON.stringify({updated:upd,slots:sl}))}catch(e){}}
+function loadRemote(){
+  if(!ON_PAGES)return;
+  fetch("config.json?v="+Date.now(),{cache:"no-store"}).then(function(r){if(!r.ok)throw 0;return r.json()}).then(function(c){
+    if(!c||!Array.isArray(c.slots))return;
+    var lu=(localCfg&&localCfg.updated)||"";
+    if(!lu||String(c.updated||"")>=lu)slots=c.slots;
+  }).catch(function(){});
+}
+async function pushConfig(sl,upd){
+  var tok="";try{tok=localStorage.getItem("ghtok")||""}catch(e){}
+  if(!tok){
+    tok=(prompt("Dán GitHub token của bạn (cần quyền Contents: Read and write):")||"").trim();
+    if(!tok)throw new Error("Chưa nhập token nên chưa lưu được vào GitHub.");
+    try{localStorage.setItem("ghtok",tok)}catch(e){}
+  }
+  var owner=location.hostname.split(".")[0],repo=location.pathname.split("/")[1]||"";
+  var url="https://api.github.com/repos/"+owner+"/"+repo+"/contents/config.json";
+  var H={"Authorization":"Bearer "+tok,"Accept":"application/vnd.github+json","X-GitHub-Api-Version":"2022-11-28"};
+  var g=await fetch(url+"?ref=main",{headers:H});
+  if(g.status===401){try{localStorage.removeItem("ghtok")}catch(e){}throw new Error("Token sai hoặc đã hết hạn. Bấm Lưu lại để nhập token mới.")}
+  var sha=g.ok?(await g.json()).sha:undefined;
+  var body={message:"Cập nhật cấu hình giờ chạy",branch:"main",content:btoa(unescape(encodeURIComponent(JSON.stringify({updated:upd,slots:sl},null,1))))};
+  if(sha)body.sha=sha;
+  var res=await fetch(url,{method:"PUT",headers:H,body:JSON.stringify(body)});
+  if(res.status===401){try{localStorage.removeItem("ghtok")}catch(e){}throw new Error("Token sai hoặc đã hết hạn. Bấm Lưu lại để nhập token mới.")}
+  if(res.status===403||res.status===404)throw new Error("Token chưa có quyền ghi nội dung repo. Vào GitHub, sửa token và đặt Contents = Read and write.");
+  if(res.status===409||res.status===422)throw new Error("Có thay đổi xảy ra cùng lúc. Bấm Lưu lại lần nữa.");
+  if(!res.ok)throw new Error("Không lưu được (mã "+res.status+").");
+}
+loadRemote();
+function slotHTML(s,i){
+  return'<div class="slot" data-i="'+i+'"><div class="sn">Khung '+(i+1)+'</div>'+
+  '<label>Từ<input type="time" data-k="from" value="'+s.from+'"></label>'+
+  '<label>Đến<input type="time" data-k="to" value="'+s.to+'"></label>'+
+  '<label>Lặp lại mỗi<select data-k="step">'+[5,10,15,30,60].map(function(v){return'<option value="'+v+'"'+(+s.step===v?' selected':'')+'>'+v+' phút</option>'}).join("")+'</select></label>'+
+  '<label class="sw"><input type="checkbox" data-k="on"'+(s.on?' checked':'')+'> Bật</label>'+
+  '<button type="button" class="del" data-del="'+i+'" aria-label="Xóa khung '+(i+1)+'">🗑</button>'+
+  '<div class="s-pre"></div></div>';
+}
+function render(){$("slots").innerHTML=draft.map(slotHTML).join("");meta()}
+function meta(){
+  var total=0,bad=false,rows=$("slots").children;
+  draft.forEach(function(s,i){
+    var t=times(s),el=rows[i].querySelector(".s-pre");
+    if(!t){el.innerHTML='<span class="err">Giờ kết thúc phải sau hoặc bằng giờ bắt đầu.</span>';bad=true}
+    else{
+      var list=t.length>6?t.slice(0,3).join(", ")+" … "+t[t.length-1]:t.join(", ");
+      el.innerHTML='Chạy lúc '+list+' · <b>'+t.length+' lượt</b>';
+      if(s.on)total+=t.length;
+    }
+    rows[i].classList.toggle("off",!s.on);
+  });
+  var on=draft.map(function(s){return{a:toMin(s.from),b:toMin(s.to),on:s.on}}).filter(function(x){return x.on&&!isNaN(x.a)&&!isNaN(x.b)&&x.b>=x.a}).sort(function(p,q){return p.a-q.a});
+  var ov=false;for(var k=1;k<on.length;k++){if(on[k].a<=on[k-1].b)ov=true}
+  var h;
+  if(ov)h='<span class="err">Các khung giờ đang trùng nhau, vui lòng chỉnh lại.</span>';
+  else if(!draft.length)h='Chưa có khung giờ nào. Bot chỉ chạy khi bạn bấm “Cập nhật ngay”.';
+  else if(!total)h='Chưa bật khung giờ nào. Bot chỉ chạy khi bạn bấm “Cập nhật ngay”.';
+  else h='Tổng cộng: <b>'+total+' lượt/ngày</b>';
+  $("sumry").innerHTML=h;
+  $("cfgSave").disabled=bad||ov;
+}
+function openCfg(){lastFocus=document.activeElement;$("cfgErr").hidden=true;draft=clone(slots);render();$("cfg").hidden=false;var f=$("slots").querySelector("input");if(f)f.focus();else $("addSlot").focus()}
+function closeCfg(){$("cfg").hidden=true;if(lastFocus&&lastFocus.focus)lastFocus.focus()}
+$("bCfg").addEventListener("click",openCfg);
+$("cfgX").addEventListener("click",closeCfg);
+$("cfgCancel").addEventListener("click",closeCfg);
+$("cfg").addEventListener("mousedown",function(e){if(e.target===this)closeCfg()});
+document.addEventListener("keydown",function(e){if(e.key==="Escape"&&!$("cfg").hidden)closeCfg()});
+$("slots").addEventListener("input",function(e){
+  var el=e.target,row=el.closest(".slot");if(!row||!el.dataset.k)return;
+  var s=draft[+row.dataset.i];
+  s[el.dataset.k]=el.type==="checkbox"?el.checked:(el.dataset.k==="step"?+el.value:el.value);
+  meta();
+});
+$("slots").addEventListener("click",function(e){
+  var b=e.target.closest("[data-del]");if(!b)return;
+  draft.splice(+b.dataset.del,1);render();
+});
+$("addSlot").addEventListener("click",function(){
+  draft.push({from:"12:00",to:"12:30",step:10,on:true});render();
+  var r=$("slots").lastElementChild;if(r)r.querySelector("input").focus();
+});
+$("cfgSave").addEventListener("click",async function(){
+  var sl=clone(draft).sort(function(a,b){return toMin(a.from)-toMin(b.from)}),upd=new Date().toISOString(),btn=this,err=$("cfgErr");
+  err.hidden=true;btn.disabled=true;btn.innerHTML='<span class="spin"></span> Đang lưu…';
+  try{
+    if(ON_PAGES)await pushConfig(sl,upd);
+    slots=sl;persist(sl,upd);closeCfg();
+    say(ON_PAGES?"Đã lưu cấu hình. Bot sẽ áp dụng từ lượt chạy kế tiếp (kiểm tra mỗi 5 phút).":"Đã lưu trên trình duyệt này. Chỉ lưu được vào bot khi mở trang GitHub Pages.","ok");
+  }catch(e){err.textContent=e.message||"Không lưu được.";err.hidden=false}
+  btn.innerHTML="Lưu cấu hình";meta();
+});
+})();
 </script>
 </body>
 </html>
