@@ -1,12 +1,8 @@
 name: Cập nhật giá vàng
 on:
   schedule:
-    # Giờ GitHub chạy theo UTC. Việt Nam = UTC+7.
-    - cron: "*/10 2 * * *"   # 09:00 - 09:50 VN
-    - cron: "0 3 * * *"      # 10:00 VN
-    - cron: "*/10 8 * * *"   # 15:00 - 15:50 VN
-    - cron: "0 9 * * *"      # 16:00 VN
-  workflow_dispatch:          # nút chạy thử bằng tay
+    - cron: "*/15 * * * *"     # kiểm tra mỗi 5 phút, giờ chạy thật do config.json quyết định
+  workflow_dispatch:           # nút "Cập nhật ngay" và chạy tay
 permissions:
   contents: write
 concurrency:
@@ -17,14 +13,23 @@ jobs:
     timeout-minutes: 5
     steps:
       - uses: actions/checkout@v4
+      - name: Kiểm tra đã đến giờ chạy chưa
+        id: gate
+        run: python3 scripts/should_run.py
       - uses: actions/setup-python@v5
+        if: steps.gate.outputs.run == 'true'
         with:
           python-version: "3.12"
-      - run: pip install requests beautifulsoup4
-      - run: python scripts/fetch_prices.py
+      - name: Cài thư viện
+        if: steps.gate.outputs.run == 'true'
+        run: pip install requests beautifulsoup4
+      - name: Lấy giá
+        if: steps.gate.outputs.run == 'true'
+        run: python scripts/fetch_prices.py
       - name: Commit nếu có giá mới
+        if: steps.gate.outputs.run == 'true'
         run: |
           git config user.name "gia-vang-bot"
           git config user.email "bot@users.noreply.github.com"
           git add data.json
-          git diff --staged --quiet || (git commit -m "Cập nhật giá vàng" && git push)
+          git diff --staged --quiet || (git commit -m "Cập nhật giá vàng" && git pull --rebase && git push)
