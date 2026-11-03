@@ -157,7 +157,7 @@ td:first-child{font-weight:600}
     <div class="sumry" id="sumry"></div>
     <div class="err cerr" id="cfgErr" role="alert" hidden></div>
     <div class="df">
-      <span class="hint">Bot kiểm tra cấu hình mỗi 5 phút và áp dụng từ lượt chạy kế tiếp. Khoảng lặp nhỏ nhất là 5 phút.</span>
+      <span class="hint">Bot kiểm tra cấu hình mỗi 15 phút và áp dụng từ lượt chạy kế tiếp. Khoảng lặp nhỏ nhất là 15 phút.</span>
       <div class="bt"><button class="btn" id="cfgCancel" type="button">Hủy</button><button class="btn primary" id="cfgSave" type="button">Lưu cấu hình</button></div>
     </div>
   </div>
@@ -389,7 +389,7 @@ $("cfgSave").addEventListener("click",async function(){
   try{
     if(ON_PAGES)await pushConfig(sl,upd);
     slots=sl;persist(sl,upd);closeCfg();
-    say(ON_PAGES?"Đã lưu cấu hình. Bot sẽ áp dụng từ lượt chạy kế tiếp (kiểm tra mỗi 5 phút).":"Đã lưu trên trình duyệt này. Chỉ lưu được vào bot khi mở trang GitHub Pages.","ok");
+    say(ON_PAGES?"Đã lưu cấu hình. Bot sẽ áp dụng từ lượt chạy kế tiếp (kiểm tra mỗi 15 phút).":"Đã lưu trên trình duyệt này. Chỉ lưu được vào bot khi mở trang GitHub Pages.","ok");
   }catch(e){err.textContent=e.message||"Không lưu được.";err.hidden=false}
   btn.innerHTML="Lưu cấu hình";meta();
 });
